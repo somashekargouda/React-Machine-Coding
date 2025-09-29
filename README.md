@@ -1,3 +1,3 @@
 # My Project
 
-This is my first GitHub repository 🚀
+This is my Github repository which includes all the React Machine coding Interview questions 🚀
