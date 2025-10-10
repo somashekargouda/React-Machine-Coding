@@ -1,48 +1,30 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import './styles.css'
 
-export default function Accordion({ sections }) {
-  const [openSections, setOpenSections] = useState(
-    new Set(),
-  );
+function Accordion({ items }) {
+    const [open, setOpen] = useState(null)
 
-  return (
-    <div className="accordion">
-      {sections.map(({ value, title, contents }) => {
-        const isExpanded = openSections.has(value);
+    const handleToggle = (index) => {
+        setOpen(open === index ? null : index)
+    }
 
-        return (
-          <div className="accordion-item" key={value}>
-            <button
-              className="accordion-item-title"
-              type="button"
-              onClick={() => {
-                const newOpenSections = new Set(
-                  openSections,
-                );
-                newOpenSections.has(value)
-                  ? newOpenSections.delete(value)
-                  : newOpenSections.add(value);
-                setOpenSections(newOpenSections);
-              }}>
-              {title}
-              <span
-                aria-hidden={true}
-                className={[
-                  'accordion-icon',
-                  isExpanded && 'accordion-icon--rotated',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              />
-            </button>
-            <div
-              className="accordion-item-contents"
-              hidden={!isExpanded}>
-              {contents}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+    return !items || items.length === 0 ? "No items available" : (
+        <div className="accordion">
+            {items.map((ele, index) => (
+                <div key={index} className="accordion-item">
+                    <button onClick={() => handleToggle(index)} className="accordion-title">{ele.title}
+
+                        {open === index ? <FaChevronUp className="arrow" /> : <FaChevronDown className="arrow" />}
+
+                    </button>
+                    {open === index && <div className="accordion-content">{ele.content}</div>}
+
+                </div>
+
+            ))}
+        </div>
+    );
 }
+
+export default Accordion;
